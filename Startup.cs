@@ -19,7 +19,7 @@ public class Startup
     public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
-    {
+    {        
         services.AddHttpContextAccessor();
         services.AddMvc(options =>
         {
@@ -28,7 +28,7 @@ public class Startup
         services.AddAuthentication();
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo() { Title = "RequestValidator", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo() { Title = "IPValidator", Version = "v1" });
         });
     }
 
@@ -43,6 +43,8 @@ public class Startup
             app.UseHsts();
         }
 
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "Request Validator v1"));
         app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -56,7 +58,7 @@ public class Startup
 
         app.UseMvc(x =>
         {
-            x.MapRoute("Default", "{controller}", defaults: new { controller = "RequestValidator" });
+            x.MapRoute("Default", "{controller}", defaults: new { controller = "IPValidator" });
         });
     }
 

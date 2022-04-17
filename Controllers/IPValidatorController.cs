@@ -3,18 +3,18 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 
 [Route("")]
-public class RequestValidatorController : ControllerBase
+public class IPValidatorController : ControllerBase
 {
     
-    private readonly ILogger<RequestValidatorController> _logger;
+    private readonly ILogger<IPValidatorController> _logger;
 
-    public RequestValidatorController(ILogger<RequestValidatorController> logger)
+    public IPValidatorController(ILogger<IPValidatorController> logger)
     {
         _logger = logger;
     }
 
     [HttpGet]
-    [Route("")]
+    [Route("ip")]
     public string RequestIp()
     {
         var currentIp = HttpContext.Connection.RemoteIpAddress;
