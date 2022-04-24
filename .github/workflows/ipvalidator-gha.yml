@@ -20,9 +20,6 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - name: Container image scan
-        uses: Azure/container-scan@v0.1
-
       - name: Restore dependencies
         run: dotnet restore src/IPValidator.sln
 
@@ -41,7 +38,8 @@ jobs:
       - name: Build Docker image
         run: docker build . -f docker/Dockerfile -t {{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest
 
-      - uses: Azure/container-scan@v0
+      - name: Container image scan
+        uses: Azure/container-scan@v0
         with:
           image-name: '{{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest'
           severity-threshold: HIGH
