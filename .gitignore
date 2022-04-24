@@ -4,10 +4,11 @@
 
 /.config
 /.vs
-/obj
-/bin
-/Properties/PublishProfiles
-/IPValidator.csproj.user
+/publish
+/src/obj
+/src/bin
+/src/Properties/PublishProfiles
+/src/IPValidator.csproj.user
 .dccache
 .vscode/launch.json
 .vscode/tasks.json

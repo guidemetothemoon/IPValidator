@@ -1,0 +1,51 @@
+name: ipvalidator-gha
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request: 
+    branches:
+      - 'main'
+
+jobs:
+  build-n-push-ipvalidator:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install .NET 6.0.x SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Container image scan
+        uses: Azure/container-scan@v0.1
+
+      - name: Restore dependencies
+        run: dotnet restore src/IPValidator.sln
+
+      - name: Build IPValidator
+        run: dotnet build src/IPValidator.sln -c Release --no-restore
+
+      - name: Publish IPValidator
+        run: dotnet publish src/IPValidator.csproj -c Release -o publish --no-restore
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          
+      - name: Build Docker image
+        run: docker build . -f docker/Dockerfile -t {{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest
+
+      - uses: Azure/container-scan@v0
+        with:
+          image-name: '{{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest'
+          severity-threshold: HIGH
+          run-quality-checks: true
+        
+      - name: Push Docker image
+        run: docker push {{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest
