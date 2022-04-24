@@ -11,7 +11,8 @@ on:
 jobs:
   build-n-push-ipvalidator:
     runs-on: ubuntu-latest
-
+    env:
+      IMAGE_NAME: ${{ secrets.DOCKER_HUB_USERNAME }}
     steps:
       - uses: actions/checkout@v3
 
@@ -36,14 +37,14 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           
       - name: Build Docker image
-        run: docker build . -f docker/Dockerfile -t '{{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest'
+        run: docker build . -f docker/Dockerfile -t '${IMAGE_NAME}/ipvalidator:latest'
 
       - name: Container image scan
         uses: Azure/container-scan@v0
         with:
-          image-name: '{{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest'
+          image-name: ${IMAGE_NAME}/ipvalidator:latest
           severity-threshold: HIGH
           run-quality-checks: true
         
       - name: Push Docker image
-        run: docker push {{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest
+        run: docker push ${IMAGE_NAME}/ipvalidator:latest
