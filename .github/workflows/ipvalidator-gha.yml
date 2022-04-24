@@ -37,14 +37,14 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           
       - name: Build Docker image
-        run: docker build . -f docker/Dockerfile -t '${IMAGE_NAME}/ipvalidator:latest'
+        run: docker build . -f docker/Dockerfile -t '$IMAGE_NAME/ipvalidator:latest'
 
       - name: Container image scan
         uses: Azure/container-scan@v0
         with:
-          image-name: ${IMAGE_NAME}/ipvalidator:latest
+          image-name: $IMAGE_NAME/ipvalidator:latest
           severity-threshold: HIGH
           run-quality-checks: true
         
       - name: Push Docker image
-        run: docker push ${IMAGE_NAME}/ipvalidator:latest
+        run: docker push $IMAGE_NAME/ipvalidator:latest
