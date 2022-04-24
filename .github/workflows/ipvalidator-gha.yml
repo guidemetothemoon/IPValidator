@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           
       - name: Build Docker image
-        run: docker build . -f docker/Dockerfile -t {{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest
+        run: docker build . -f docker/Dockerfile -t '{{ secrets.DOCKER_HUB_USERNAME }}/ipvalidator:latest'
 
       - name: Container image scan
         uses: Azure/container-scan@v0
