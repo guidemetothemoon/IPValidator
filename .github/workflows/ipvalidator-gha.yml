@@ -42,7 +42,7 @@ jobs:
       - name: Lint Dockerfile with Hadolint
         uses: hadolint/hadolint-action@v3.0.0
         with:
-          dockerfile: docker/Dockerfile
+          dockerfile: ./docker/Dockerfile
 
       - name: Container image scan
         uses: Azure/container-scan@v0
