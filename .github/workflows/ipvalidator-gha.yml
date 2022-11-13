@@ -38,6 +38,11 @@ jobs:
           
       - name: Build Docker image
         run: docker build . -f docker/Dockerfile -t ${{ env.IMAGE_NAME }}/ipvalidator:latest
+      
+      - name: Lint Dockerfile with Hadolint
+        uses: hadolint/hadolint-action@v3.0.0
+        with:
+          dockerfile: docker/Dockerfile
 
       - name: Container image scan
         uses: Azure/container-scan@v0
