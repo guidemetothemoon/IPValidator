@@ -46,7 +46,7 @@ jobs:
           failure-threshold: error
           
       - name: Print Hadolint lint results
-        run: echo "${{ github.env.HADOLINT_RESULTS }}"
+        run: echo 'HADOLINT LINT RESULTS => ${{ env.HADOLINT_RESULTS }}'
 
       - name: Container image scan
         uses: Azure/container-scan@v0
